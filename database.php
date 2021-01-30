@@ -23,23 +23,32 @@ function GetMessagesFromDB($_login){
         die("Connection failed: " . $conn->connect_error);
     } 
     $listMessage = [];
-    $sql = "SELECT id, author, date, title, content FROM messages";
+    $sql = "SELECT id, date, author, title, body FROM messages ORDER BY id DESC";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
-    // output data of each row
         while($row = $result->fetch_assoc()) {
-            $listMessage[] = new Message($row['id'],$row['date'],$row['author'],$row['title'],$row['content']);
+            $listMessage[] = new Message($row['id'],$row['date'],$row['author'],$row['title'],$row['body']);
         }
-    }
-    else {
-        echo "0 results";
     }
     $conn->close();
     return $listMessage;
 }
 function StoreNewMessageToDB($_login, $_message){
-    $sql = "INSERT INTO messages (date, author, title, content)
-    VALUES ('John', 'Doe', 'john@example.com')";
-}
+    $conn = new mysqli($_login[0], $_login[1], $_login[2], $_login[3]);
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    } 
+
+    $sql = "INSERT INTO messages (date, author, title, body)
+    VALUES ('$_message->date', '$_message->author', '$_message->title', '$_message->body')";
+
+    if ($conn->query($sql) === TRUE) {
+        $r = "Ok";
+    } else {
+        $r = "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+    return $r;
+}   
 
