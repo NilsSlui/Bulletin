@@ -1,7 +1,4 @@
 <?php
-
-$login = array("localhost", "root", "root", "bulletin"); //server, user, pass, database
-
 class Message {
     public $id;
     public $date;
@@ -17,11 +14,16 @@ class Message {
         $this->body = $body;
     }
 }
-function GetMessagesFromDB($_login){
-    $conn = new mysqli($_login[0], $_login[1], $_login[2], $_login[3]);
+function ConnectToDB(){
+    $login = array("localhost", "root", "root", "bulletin"); //server, user, pass, database
+    $conn = new mysqli($login[0], $login[1], $login[2], $login[3]);
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     } 
+    return $conn;
+}
+function GetMessagesFromDB(){
+    $conn = ConnectToDB();
     $listMessage = [];
     $sql = "SELECT id, date, author, title, body FROM messages ORDER BY id DESC";
     $result = $conn->query($sql);
@@ -34,12 +36,8 @@ function GetMessagesFromDB($_login){
     $conn->close();
     return $listMessage;
 }
-function StoreNewMessageToDB($_login, $_message){
-    $conn = new mysqli($_login[0], $_login[1], $_login[2], $_login[3]);
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    } 
-
+function StoreNewMessageToDB($_message){
+    $conn = ConnectToDB();
     $sql = "INSERT INTO messages (date, author, title, body)
     VALUES ('$_message->date', '$_message->author', '$_message->title', '$_message->body')";
 
@@ -51,4 +49,12 @@ function StoreNewMessageToDB($_login, $_message){
     $conn->close();
     return $r;
 }   
+function GetSingleMessageFromDB($_id){
+    if(!is_int($_id)) { 
+        return 0;
+    }
 
+    $sql = "SELECT id, date, author, title, body FROM messages WHERE id=" . $_id; 
+
+    return $sql;
+}
