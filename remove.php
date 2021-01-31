@@ -9,8 +9,10 @@
         }
     }
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $new_m = new Message($_POST['id'],$_POST['date'],$_POST['author'],$_POST['title'],$_POST['body']);
-        EditMessageFromDB($new_m);
+        $message_to_remove = intval($_POST['id']);
+        if($message_to_remove != 0){
+            RemoveMessageFromDB($message_to_remove);
+        }
     }
         
 ?>
@@ -47,7 +49,7 @@
                     <input type="text" class="short_input" id="title" name="title" value="<?php if(isset($m)){print($m->title);}; ?>"required><br>
                     <label for="message">Message:</label><br>
                     <textarea id="message_text" name="body"  required><?php if(isset($m)){print($m->body);};?></textarea><br>
-                    <input value="Save" type="submit">
+                    <input value="Remove" type="submit">
                 </form>
             </div>
         </div>

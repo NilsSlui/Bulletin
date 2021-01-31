@@ -6,10 +6,9 @@
         $body = htmlspecialchars($_POST['body']);
         $t=time();
         $date = htmlspecialchars(strval(date("d-m-Y h:m:s",$t)));
-
         if (!empty($name)||!empty($title)||!empty($message)) {
             $freshpost = new Message(0, $date, $author, $title, $body);
-            StoreNewMessageToDB($login, $freshpost);
+            StoreNewMessageToDB($freshpost);
         } else {
           echo '0';
         }

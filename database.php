@@ -70,8 +70,39 @@ function GetSingleMessageFromDB($_id){
     $conn->close();
     return $m;
 }
+#Input: nothing
+#Output: number of messages currently in database
+function GetNumberOfMessagesFromDB(){
+    $conn = ConnectToDB();
+    $sql = "SELECT * FROM messages";
+    $result = $conn->query($sql);
+    $num_rows = mysqli_num_rows($result);
+    return $num_rows;
+}
 #Input: Message object 
 #Output: true or false based on database record update success
 function EditMessageFromDB($_message){
+    $conn = ConnectToDB();
     $sql = "UPDATE messages SET author='$_message->author', title='$_message->title', body='$_message->body' WHERE id=$_message->id";
+    if ($conn->query($sql) === TRUE) {
+        $r = True;
+    } else {
+        $r = "Error updating record: " . $conn->error;
+    }  
+    return $r;   
+    $conn->close();
+}
+#Input: id of message to delete from databaase
+#Output: true or false based on success
+function RemoveMessageFromDB($_id){
+    $conn = ConnectToDB();
+    if(!is_int($_id)) { 
+        return 0;
+    } 
+    $sql = "DELETE FROM messages WHERE id =".$_id;
+    if ($conn->query($sql) === TRUE) {
+        return True;
+      } else {
+        return False;
+      }
 }

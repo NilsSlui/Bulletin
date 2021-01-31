@@ -17,6 +17,8 @@
                         print('<div class="post_container">');
                         print('<div class="post_header">');
                         print('<div class="post_header_title">');
+                        print($value->id);
+                        print(' - ');
                         print($value->author);
                         print(' - ');
                         print($value->title);
