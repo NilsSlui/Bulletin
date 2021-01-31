@@ -1,10 +1,9 @@
 <?php
      /*
-        Simple bulletin board to demonstrate familiarity with create, read, update and delete using PHP and SQL.
-        By Nils.
+        Simple bulletin board by Nils.
      */
     require 'database.php';
-    $listMessage = GetMessagesFromDB($login);
+    $listMessage = GetMessagesFromDB();
 ?>
 <html>
     <head>

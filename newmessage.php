@@ -1,7 +1,6 @@
 <?php
     require 'database.php';
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // collect value of input fields
         $author = htmlspecialchars($_POST['author']);
         $title = htmlspecialchars($_POST['title']);
         $body = htmlspecialchars($_POST['body']);
