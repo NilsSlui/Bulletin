@@ -9,7 +9,12 @@
         }
     }
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $new_m = new Message($_POST['id'],$_POST['date'],$_POST['author'],$_POST['title'],$_POST['body']);
+        $id = htmlspecialchars($_POST['id']);
+        $date = htmlspecialchars($_POST['date']);
+        $author = htmlspecialchars($_POST['author']);
+        $title = htmlspecialchars($_POST['title']);
+        $post = htmlspecialchars($_POST['body']);
+        $new_m = new Message($id,$date,$author,$title,$post);
         EditMessageFromDB($new_m);
     }
         

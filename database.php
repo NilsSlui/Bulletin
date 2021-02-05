@@ -87,7 +87,8 @@ function EditMessageFromDB($_message){
     if ($conn->query($sql) === TRUE) {
         $r = True;
     } else {
-        $r = "Error updating record: " . $conn->error;
+        #$r = "Error updating record: " . $conn->error;
+        $r = False;
     }  
     return $r;   
     $conn->close();
